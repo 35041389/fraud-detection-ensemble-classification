@@ -1,0 +1,1319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071426">
+<title>SecurePay AI | Fraud Risk Assessment</title>
+
+<style>
+:root {
+    --navy-950: #06111f;
+    --navy-900: #0a1b2e;
+    --navy-800: #102942;
+    --blue-600: #2563eb;
+    --blue-500: #3b82f6;
+    --cyan-400: #22d3ee;
+    --emerald-500: #10b981;
+    --amber-500: #f59e0b;
+    --red-500: #ef4444;
+    --slate-950: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --white: #ffffff;
+    --surface: rgba(255, 255, 255, 0.96);
+    --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 24px 70px rgba(2, 8, 23, 0.18);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    color: var(--slate-950);
+    background:
+        radial-gradient(circle at 12% -8%, rgba(34, 211, 238, 0.20), transparent 28%),
+        radial-gradient(circle at 92% 4%, rgba(59, 130, 246, 0.22), transparent 25%),
+        linear-gradient(180deg, #06111f 0, #0a1b2e 440px, #eef4fa 440px, #f8fafc 100%);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+.shell {
+    width: min(1240px, calc(100% - 32px));
+    margin: 0 auto;
+}
+
+.topbar {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    color: white;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background:
+        linear-gradient(145deg, rgba(34, 211, 238, 0.28), rgba(59, 130, 246, 0.22));
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.brand-mark svg {
+    width: 25px;
+    height: 25px;
+}
+
+.brand-copy strong {
+    display: block;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+}
+
+.brand-copy span {
+    display: block;
+    margin-top: 2px;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.78rem;
+}
+
+.system-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 13px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.84);
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 0 5px rgba(52, 211, 153, 0.12);
+}
+
+.hero {
+    padding: 42px 0 62px;
+    color: white;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.75fr);
+    gap: 32px;
+    align-items: end;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: #8ee7f6;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    max-width: 780px;
+    margin: 0;
+    font-size: clamp(2.35rem, 5vw, 4.55rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+}
+
+.hero-subtitle {
+    max-width: 680px;
+    margin: 22px 0 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: clamp(1rem, 1.8vw, 1.16rem);
+    line-height: 1.75;
+}
+
+.hero-metrics {
+    display: grid;
+    gap: 12px;
+}
+
+.metric-tile {
+    padding: 17px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(16px);
+}
+
+.metric-tile span {
+    display: block;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.metric-tile strong {
+    display: block;
+    margin-top: 7px;
+    font-size: 1rem;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.workspace {
+    padding-bottom: 72px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.78fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.stack {
+    display: grid;
+    gap: 24px;
+}
+
+.card {
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 24px 26px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.card-kicker {
+    margin: 0 0 7px;
+    color: var(--blue-600);
+    font-size: 0.75rem;
+    font-weight: 850;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 1.35rem;
+    letter-spacing: -0.025em;
+}
+
+.card-description {
+    margin: 9px 0 0;
+    color: var(--slate-600);
+    font-size: 0.93rem;
+    line-height: 1.65;
+}
+
+.card-body {
+    padding: 24px 26px 26px;
+}
+
+.icon-box {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    color: var(--blue-600);
+    background: #eff6ff;
+}
+
+.icon-box svg {
+    width: 22px;
+    height: 22px;
+}
+
+.alert {
+    padding: 18px 20px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    box-shadow: var(--shadow-sm);
+}
+
+.alert svg {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+}
+
+.alert-error {
+    color: #991b1b;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+}
+
+.result-card {
+    position: relative;
+    isolation: isolate;
+    border: 0;
+    color: white;
+    background:
+        linear-gradient(135deg, #0f2945 0%, #12395e 58%, #10516a 100%);
+    box-shadow: var(--shadow-lg);
+}
+
+.result-card::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 230px;
+    height: 230px;
+    right: -70px;
+    top: -90px;
+    border-radius: 50%;
+    background: rgba(34, 211, 238, 0.14);
+}
+
+.result-content {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 24px;
+    align-items: center;
+}
+
+.risk-ring {
+    --score: {{ (result.probability * 100) if result else 0 }};
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle closest-side, #0f2945 76%, transparent 77% 100%),
+        conic-gradient(
+            {% if result and result.prediction == 1 %}#fb7185{% else %}#34d399{% endif %}
+            calc(var(--score) * 1%),
+            rgba(255, 255, 255, 0.13) 0
+        );
+}
+
+.risk-ring-inner {
+    text-align: center;
+}
+
+.risk-ring strong {
+    display: block;
+    font-size: 1.35rem;
+}
+
+.risk-ring span {
+    display: block;
+    margin-top: 2px;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.69rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.result-label {
+    margin: 0;
+    font-size: 1.55rem;
+}
+
+.result-copy {
+    margin: 8px 0 0;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.65;
+}
+
+.result-meta {
+    margin-top: 17px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.result-pill {
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.77rem;
+    font-weight: 750;
+}
+
+.form-section {
+    margin-bottom: 26px;
+}
+
+.form-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 13px;
+    color: var(--slate-700);
+    font-size: 0.82rem;
+    font-weight: 850;
+    letter-spacing: 0.03em;
+}
+
+.section-number {
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--blue-600);
+    background: #eff6ff;
+    font-size: 0.72rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+}
+
+.field {
+    position: relative;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--slate-700);
+    font-size: 0.79rem;
+    font-weight: 780;
+}
+
+.field input {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    color: var(--slate-950);
+    border: 1px solid var(--slate-200);
+    border-radius: 11px;
+    outline: none;
+    background: #fbfdff;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+}
+
+.field input:hover {
+    border-color: var(--slate-300);
+    background: white;
+}
+
+.field input:focus {
+    border-color: var(--blue-500);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.advanced-panel {
+    margin-top: 18px;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    background: #f8fafc;
+}
+
+.advanced-panel summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--slate-800);
+    font-size: 0.88rem;
+    font-weight: 800;
+}
+
+.advanced-panel summary::-webkit-details-marker {
+    display: none;
+}
+
+.advanced-panel summary::after {
+    content: "+";
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--blue-600);
+    background: #eaf2ff;
+    font-size: 1.1rem;
+}
+
+.advanced-panel[open] summary::after {
+    content: "−";
+}
+
+.advanced-content {
+    padding: 0 18px 18px;
+}
+
+.actions {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn {
+    appearance: none;
+    min-height: 46px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    cursor: pointer;
+    font-weight: 850;
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        opacity 160ms ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    color: white;
+    background: linear-gradient(135deg, var(--blue-600), #0d77b7);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 15px 34px rgba(37, 99, 235, 0.33);
+}
+
+.btn-secondary {
+    color: var(--slate-800);
+    border: 1px solid var(--slate-200);
+    background: white;
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.helper {
+    color: var(--slate-500);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.upload-zone {
+    border: 1.5px dashed #a9bdd4;
+    border-radius: 18px;
+    padding: 24px;
+    text-align: center;
+    background:
+        linear-gradient(180deg, #f9fcff, #f4f8fc);
+    transition:
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+.upload-zone:hover {
+    border-color: var(--blue-500);
+    background: #f1f7ff;
+}
+
+.upload-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 12px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    color: var(--blue-600);
+    background: #eaf2ff;
+}
+
+.upload-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.upload-zone h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.upload-zone p {
+    margin: 6px auto 16px;
+    max-width: 420px;
+    color: var(--slate-500);
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+.file-input {
+    position: relative;
+    display: inline-block;
+}
+
+.file-input input[type="file"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-name {
+    margin-top: 11px;
+    color: var(--slate-600);
+    font-size: 0.78rem;
+}
+
+.side-card .card-body {
+    padding-top: 20px;
+}
+
+.trust-list {
+    display: grid;
+    gap: 16px;
+}
+
+.trust-item {
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    gap: 12px;
+    align-items: start;
+}
+
+.trust-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: var(--emerald-500);
+    background: #ecfdf5;
+}
+
+.trust-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.trust-item strong {
+    display: block;
+    color: var(--slate-800);
+    font-size: 0.88rem;
+}
+
+.trust-item p {
+    margin: 4px 0 0;
+    color: var(--slate-500);
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.model-facts {
+    display: grid;
+    gap: 11px;
+}
+
+.fact-row {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--slate-100);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.fact-row:last-child {
+    border-bottom: 0;
+}
+
+.fact-row span {
+    color: var(--slate-500);
+    font-size: 0.79rem;
+}
+
+.fact-row strong {
+    color: var(--slate-800);
+    font-size: 0.79rem;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.ethics {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 14px;
+    color: #155e75;
+    background: #ecfeff;
+    border: 1px solid #bae6fd;
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+.api-code {
+    display: block;
+    margin-top: 12px;
+    padding: 13px 14px;
+    border-radius: 12px;
+    color: #dbeafe;
+    background: var(--navy-950);
+    font: 0.78rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    overflow-x: auto;
+}
+
+.table-card {
+    grid-column: 1 / -1;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--slate-200);
+    border-radius: 14px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+
+.results-table th,
+.results-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--slate-100);
+    text-align: right;
+    white-space: nowrap;
+}
+
+.results-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: var(--slate-700);
+    background: #f8fafc;
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+}
+
+.results-table tr:hover td {
+    background: #f8fbff;
+}
+
+.footer {
+    padding: 10px 0 36px;
+    color: var(--slate-500);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: 0.76rem;
+}
+
+.footer strong {
+    color: var(--slate-700);
+}
+
+@media (max-width: 960px) {
+    body {
+        background:
+            radial-gradient(circle at 12% -8%, rgba(34, 211, 238, 0.18), transparent 28%),
+            linear-gradient(180deg, #06111f 0, #0a1b2e 560px, #eef4fa 560px, #f8fafc 100%);
+    }
+
+    .hero,
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding-top: 28px;
+    }
+
+    .hero-metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .side-stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 680px) {
+    .shell {
+        width: min(100% - 20px, 1240px);
+    }
+
+    .topbar {
+        min-height: 68px;
+    }
+
+    .brand-copy span,
+    .system-status span {
+        display: none;
+    }
+
+    .hero {
+        padding: 28px 0 42px;
+    }
+
+    .hero h1 {
+        font-size: 2.45rem;
+    }
+
+    .hero-metrics,
+    .side-stack {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header,
+    .card-body,
+    .result-content {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .result-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .risk-ring {
+        margin: 0 auto;
+    }
+
+    .result-meta {
+        justify-content: center;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .footer {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+<header>
+    <div class="shell topbar">
+        <div class="brand" aria-label="SecurePay AI">
+            <div class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3 5 6v5c0 4.8 2.9 8.1 7 10 4.1-1.9 7-5.2 7-10V6l-7-3Z"
+                          stroke="currentColor" stroke-width="1.8"/>
+                    <path d="m9.2 12 1.8 1.8 3.9-4.2"
+                          stroke="currentColor" stroke-width="1.8"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="brand-copy">
+                <strong>SecurePay AI</strong>
+                <span>Intelligent transaction protection</span>
+            </div>
+        </div>
+
+        <div class="system-status">
+            <i class="status-dot" aria-hidden="true"></i>
+            <span>Risk engine online</span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="shell hero">
+        <div>
+            <div class="eyebrow">
+                <span>Customer protection platform</span>
+            </div>
+            <h1>Confidence for every transaction.</h1>
+            <p class="hero-subtitle">
+                Assess transaction risk in seconds with an AI-powered fraud detection experience
+                designed around customer trust, clarity, and responsible decision support.
+            </p>
+        </div>
+
+        <div class="hero-metrics">
+            <div class="metric-tile">
+                <span>Active model</span>
+                <strong>{{ metadata.model_name }}</strong>
+            </div>
+            <div class="metric-tile">
+                <span>Decision threshold</span>
+                <strong>{{ "%.4f"|format(metadata.decision_threshold) }}</strong>
+            </div>
+            <div class="metric-tile">
+                <span>Assessment mode</span>
+                <strong>Real-time academic demo</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="shell workspace">
+        {% if error %}
+        <div class="alert alert-error" role="alert" style="margin-bottom: 24px;">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 8v5m0 3h.01M10.3 4.6 2.8 17.5A1.7 1.7 0 0 0 4.3 20h15.4a1.7 1.7 0 0 0 1.5-2.5L13.7 4.6a2 2 0 0 0-3.4 0Z"
+                      stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round"/>
+            </svg>
+            <div>
+                <strong>We could not complete this assessment.</strong><br>
+                {{ error }}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if result %}
+        <article class="card result-card" style="margin-bottom: 24px;">
+            <div class="result-content">
+                <div class="risk-ring" aria-label="Fraud probability">
+                    <div class="risk-ring-inner">
+                        <strong>{{ "%.1f"|format(result.probability * 100) }}%</strong>
+                        <span>Risk score</span>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="card-kicker" style="color:#8ee7f6;">Assessment complete</p>
+                    <h2 class="result-label">{{ result.label }}</h2>
+                    <p class="result-copy">
+                        {% if result.prediction == 1 %}
+                        This transaction exceeds the current risk threshold and should be reviewed
+                        before approval. A flagged result is a decision-support signal, not proof of fraud.
+                        {% else %}
+                        This transaction is below the current risk threshold. Continue with normal
+                        customer verification and monitoring procedures.
+                        {% endif %}
+                    </p>
+                    <div class="result-meta">
+                        <span class="result-pill">
+                            Probability {{ "%.6f"|format(result.probability) }}
+                        </span>
+                        <span class="result-pill">
+                            Threshold {{ "%.6f"|format(result.threshold) }}
+                        </span>
+                        <span class="result-pill">
+                            {% if result.prediction == 1 %}Review recommended{% else %}Lower observed risk{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endif %}
+
+        <div class="layout">
+            <div class="stack">
+                <article class="card">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker">Individual assessment</p>
+                            <h2>Review a single transaction</h2>
+                            <p class="card-description">
+                                Enter the transaction values below. Core customer-facing fields are
+                                shown first, while anonymised model components are available under
+                                advanced inputs.
+                            </p>
+                        </div>
+
+                        <div class="icon-box" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                                      stroke="currentColor" stroke-width="1.8"/>
+                                <path d="M8 9h8M8 13h5" stroke="currentColor"
+                                      stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="post" action="/predict">
+                            <div class="form-section">
+                                <div class="section-label">
+                                    <span class="section-number">1</span>
+                                    Core transaction details
+                                </div>
+
+                                <div class="grid">
+                                    {% for feature in features %}
+                                        {% if feature == "Time" or feature == "Amount" %}
+                                        <div class="field">
+                                            <label for="{{ feature }}">
+                                                {% if feature == "Time" %}
+                                                    Transaction time
+                                                {% else %}
+                                                    Transaction amount
+                                                {% endif %}
+                                            </label>
+                                            <input
+                                                id="{{ feature }}"
+                                                type="number"
+                                                step="any"
+                                                name="{{ feature }}"
+                                                value="{{ defaults[feature] }}"
+                                                required
+                                                aria-describedby="{{ feature }}-help"
+                                            >
+                                            <span class="helper" id="{{ feature }}-help">
+                                                {% if feature == "Time" %}
+                                                    Seconds elapsed from the first recorded transaction.
+                                                {% else %}
+                                                    Enter the transaction value used by the model.
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <details class="advanced-panel">
+                                <summary>
+                                    Advanced anonymised model inputs
+                                </summary>
+                                <div class="advanced-content">
+                                    <p class="helper" style="margin: 0 0 14px;">
+                                        V1–V28 are PCA-transformed variables supplied by the research
+                                        dataset. They do not reveal customer identity.
+                                    </p>
+                                    <div class="grid">
+                                        {% for feature in features %}
+                                            {% if feature != "Time" and feature != "Amount" %}
+                                            <div class="field">
+                                                <label for="{{ feature }}">{{ feature }}</label>
+                                                <input
+                                                    id="{{ feature }}"
+                                                    type="number"
+                                                    step="any"
+                                                    name="{{ feature }}"
+                                                    value="{{ defaults[feature] }}"
+                                                    required
+                                                >
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </details>
+
+                            <div class="actions">
+                                <button class="btn btn-primary" type="submit">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M12 3 5 6v5c0 4.8 2.9 8.1 7 10 4.1-1.9 7-5.2 7-10V6l-7-3Z"
+                                              stroke="currentColor" stroke-width="1.8"/>
+                                        <path d="m9.2 12 1.8 1.8 3.9-4.2"
+                                              stroke="currentColor" stroke-width="1.8"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Assess transaction risk
+                                </button>
+
+                                <button class="btn btn-secondary" type="reset">
+                                    Clear values
+                                </button>
+
+                                <span class="helper">
+                                    Results are generated by the saved academic model.
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker">Portfolio screening</p>
+                            <h2>Score a CSV transaction file</h2>
+                            <p class="card-description">
+                                Upload up to 1,000 rows for batch risk assessment. The application
+                                displays the first 100 scored rows.
+                            </p>
+                        </div>
+
+                        <div class="icon-box" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
+                                      stroke="currentColor" stroke-width="1.8"/>
+                                <path d="M14 3v5h5M9 13h6M9 17h6"
+                                      stroke="currentColor" stroke-width="1.8"
+                                      stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="post" action="/predict_csv" enctype="multipart/form-data">
+                            <div class="upload-zone">
+                                <div class="upload-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 16V5m0 0L8 9m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"
+                                              stroke="currentColor" stroke-width="1.8"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h3>Upload your transaction file</h3>
+                                <p>
+                                    CSV files only. Required columns:
+                                    <strong>{{ features|join(", ") }}</strong>
+                                </p>
+
+                                <label class="btn btn-secondary file-input">
+                                    Choose CSV
+                                    <input id="csv-file" type="file" name="file" accept=".csv" required>
+                                </label>
+                                <div class="file-name" id="file-name">No file selected</div>
+                            </div>
+
+                            <div class="actions">
+                                <button class="btn btn-primary" type="submit">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M4 19V9m5 10V5m5 14v-7m5 7V8"
+                                              stroke="currentColor" stroke-width="1.8"
+                                              stroke-linecap="round"/>
+                                    </svg>
+                                    Score transaction file
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+
+            <aside class="stack side-stack">
+                <article class="card side-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker">Customer assurance</p>
+                            <h2>Built around trust</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="trust-list">
+                            <div class="trust-item">
+                                <div class="trust-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 3 5 6v5c0 4.8 2.9 8.1 7 10 4.1-1.9 7-5.2 7-10V6l-7-3Z"
+                                              stroke="currentColor" stroke-width="1.8"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong>Anonymised analysis</strong>
+                                    <p>
+                                        The source dataset contains PCA-transformed features and no
+                                        direct customer identifiers.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="trust-item">
+                                <div class="trust-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.5M4 4v4.5h4.5"
+                                              stroke="currentColor" stroke-width="1.8"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong>Consistent decisions</strong>
+                                    <p>
+                                        Each assessment uses the same saved model and validated
+                                        probability threshold.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="trust-item">
+                                <div class="trust-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 8v4l3 2M21 12a9 9 0 1 1-3-6.7"
+                                              stroke="currentColor" stroke-width="1.8"
+                                              stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong>Rapid screening</strong>
+                                    <p>
+                                        Single records and batch files can be assessed through one
+                                        straightforward customer journey.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ethics">
+                            <strong>Responsible-use notice</strong><br>
+                            {{ metadata.ethics_notice }}
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card side-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker">Model information</p>
+                            <h2>Assessment details</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="model-facts">
+                            <div class="fact-row">
+                                <span>Model</span>
+                                <strong>{{ metadata.model_name }}</strong>
+                            </div>
+                            <div class="fact-row">
+                                <span>Threshold</span>
+                                <strong>{{ "%.6f"|format(metadata.decision_threshold) }}</strong>
+                            </div>
+                            <div class="fact-row">
+                                <span>Input features</span>
+                                <strong>{{ features|length }}</strong>
+                            </div>
+                            <div class="fact-row">
+                                <span>Purpose</span>
+                                <strong>Academic decision support</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card side-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker">Developer access</p>
+                            <h2>API endpoints</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-description" style="margin-top:0;">
+                            Integrate the same fraud assessment into another local application.
+                        </p>
+                        <code class="api-code">POST /api/predict
+GET  /health</code>
+                    </div>
+                </article>
+            </aside>
+
+            {% if table_html %}
+            <article class="card table-card">
+                <div class="card-header">
+                    <div>
+                        <p class="card-kicker">Batch results</p>
+                        <h2>Scored transaction preview</h2>
+                        <p class="card-description">
+                            Showing the first 100 rows from the uploaded file.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrap">{{ table_html|safe }}</div>
+                </div>
+            </article>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+<footer class="shell footer">
+    <span><strong>SecurePay AI</strong> — Academic fraud detection demonstration</span>
+    <span>Designed for transparent, customer-centred risk assessment</span>
+</footer>
+
+<script>
+(function () {
+    const fileInput = document.getElementById("csv-file");
+    const fileName = document.getElementById("file-name");
+
+    if (fileInput && fileName) {
+        fileInput.addEventListener("change", function () {
+            fileName.textContent = this.files && this.files.length
+                ? this.files[0].name
+                : "No file selected";
+        });
+    }
+})();
+</script>
+</body>
+</html>
