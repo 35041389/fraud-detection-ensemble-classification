@@ -173,22 +173,8 @@ The following names are taken from the notebook. The notebook itself must be add
 ```text
 README.md                              # This project overview
 creditcard-fraud-aguan.ipynb           # Executed research notebook (add this file)
-outputs/                               # Generated when run locally; /kaggle/working on Kaggle
-    figures/                           # EDA, model, calibration and explanation charts
-    model_artifacts/
-        fraud_detection_model.joblib
-        model_metadata.json
-        test_metrics.json
-        feature_schema.json
-        environment_versions.json
-    validation_model_comparison.csv
-    final_test_metrics.csv
-    real_data_permutation_importance.csv
-    simulated_transactions.csv        # Only when simulator is enabled
-    PROJECT_SUMMARY.md
-    output_manifest.csv
     fraud_flask_app/                    # Generated experimental Flask code; future validation needed
-    fraud_flask_app.zip                 # Generated experimental application archive
+CreditCard-fraud-aguan.ipynb
 ```
 
 This is an **expected layout**, not a claim that every listed file has already been committed to GitHub. Review the generated manifest for the exact output files from your run. The notebook's generated Flask files are experimental code-generation output; **application implementation, formal endpoint testing, user evaluation and operational deployment remain future work** in the assessed project.
